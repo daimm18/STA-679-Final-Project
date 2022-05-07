@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Michelle Dai" />
+
+<meta name="date" content="2022-05-06" />
+
+<title>Code</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Do people who made more web visit purchase more compared with people who made less web visit?</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="analysis.html">Analysis</a>
+</li>
+<li>
+  <a href="code.html">Code</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/daimm18/STA-679-Final-Project">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Code</h1>
+<h4 class="author">Michelle Dai</h4>
+<h4 class="date">2022-05-06</h4>
+
+</div>
+
+
+<div id="appendix-data-details" class="section level2">
+<h2>Appendix: Data Details</h2>
+<p>Source of data: <a
+href="https://www.kaggle.com/datasets/imakash3011/customer-personality-analysis?select=marketing_campaign.csv"
+class="uri">https://www.kaggle.com/datasets/imakash3011/customer-personality-analysis?select=marketing_campaign.csv</a></p>
+<p>ID: Customer’s unique identifier</p>
+<p>Year_Birth: Customer’s birth year</p>
+<p>Education: Customer’s education level</p>
+<p>Marital_Status: Customer’s marital status</p>
+<p>Income: Customer’s yearly household income</p>
+<p>Kidhome: Number of children in customer’s household</p>
+<p>Teenhome: Number of teenagers in customer’s household</p>
+<p>Dt_Customer: Date of customer’s enrollment with the company</p>
+<p>Recency: Number of days since customer’s last purchase</p>
+<p>Complain: 1 if the customer complained in the last 2 years, 0
+otherwise</p>
+<p>MntWines: Amount spent on wine in last 2 years</p>
+<p>MntFruits: Amount spent on fruits in last 2 years</p>
+<p>MntMeatProducts: Amount spent on meat in last 2 years</p>
+<p>MntFishProducts: Amount spent on fish in last 2 years</p>
+<p>MntSweetProducts: Amount spent on sweets in last 2 years</p>
+<p>MntGoldProds: Amount spent on gold in last 2 years</p>
+<p>NumDealsPurchases: Number of purchases made with a discount</p>
+<p>AcceptedCmp1: 1 if customer accepted the offer in the 1st campaign, 0
+otherwise</p>
+<p>AcceptedCmp2: 1 if customer accepted the offer in the 2nd campaign, 0
+otherwise</p>
+<p>AcceptedCmp3: 1 if customer accepted the offer in the 3rd campaign, 0
+otherwise</p>
+<p>AcceptedCmp4: 1 if customer accepted the offer in the 4th campaign, 0
+otherwise</p>
+<p>AcceptedCmp5: 1 if customer accepted the offer in the 5th campaign, 0
+otherwise</p>
+<p>Response: 1 if customer accepted the offer in the last campaign, 0
+otherwise</p>
+<p>NumWebPurchases: Number of purchases made through the company’s
+website</p>
+<p>NumCatalogPurchases: Number of purchases made using a catalogue</p>
+<p>NumStorePurchases: Number of purchases made directly in stores</p>
+<p>NumWebVisitsMonth: Number of visits to company’s website in the last
+month</p>
+<p>TotalPurchase is the sum of NumWebPurchases, NumCatalogPurchases, and
+NumStorePurchases.</p>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Austin, Peter C. “An Introduction to Propensity Score Methods for
+Reducing the Effects of Confounding in Observational Studies.”
+Multivariate Behavioral Research, vol. 46, no. 3, 2011, pp. 399–424., <a
+href="https://doi.org/10.1080/00273171.2011.568786"
+class="uri">https://doi.org/10.1080/00273171.2011.568786</a>.</p>
+<p>Malcolm Barrett, Lucy D’Agostino McGowan. “Causal Inference in R.”
+Causal Inference in R, 8 Mar. 2022, <a href="https://www.r-causal.org/"
+class="uri">https://www.r-causal.org/</a>.</p>
+</div>
+<div id="code" class="section level2">
+<h2>Code</h2>
+<div id="data-description-and-problem-identified"
+class="section level3">
+<h3>Data Description and Problem Identified</h3>
+<pre class="r"><code>library(causaldata)
+library(dbplyr)
+library(ggdag)
+library(tidyverse)
+library(broom)
+library(visdat)
+data &lt;- read.csv(file=&quot;marketing_campaign.csv&quot;)</code></pre>
+<pre class="r"><code>data$TotalPurchase &lt;- data$NumWebPurchases+ data$NumCatalogPurchases+data$NumStorePurchases
+data_sub &lt;- data %&gt;% select(Year_Birth, Education, Marital_Status, Income, Kidhome, Teenhome, Recency, Complain, NumDealsPurchases, TotalPurchase, NumWebVisitsMonth)</code></pre>
+<pre class="r"><code>purchase &lt;- dagify(
+  NumWebVisitsMonth ~ Year_Birth + Education +Marital_Status+ Kidhome + Teenhome + Recency + NumDealsPurchases,
+  TotalPurchase ~ Marital_Status + Income + Kidhome + Teenhome + Recency + Complain + NumDealsPurchases,
+  exposure = &quot;NumWebVisitsMonth&quot;,
+  outcome = &quot;TotalPurchase&quot;,
+  labels = c(
+    NumWebVisitsMonth = &quot;#Web Visit Last Month&quot;,
+    Year_Birth = &quot;Birth Year&quot;,
+    Education = &quot;Education&quot;,
+    Marital_Status = &quot;Marital Status&quot;,
+    Kidhome = &quot;#Kids at Home&quot;,
+    Teenhome = &quot;#Teenagers at Home&quot;,
+    Recency = &quot;#Days since Last Purchase&quot;,
+    NumDealsPurchases = &quot;#Purchase using Discount&quot;,
+    Income = &quot;Income&quot;,
+    TotalPurchase = &quot;Total Purchase&quot;,
+    Complain = &quot;Complain&quot;
+  )
+)
+ggdag_status(purchase, use_labels = &quot;label&quot;, text = FALSE) +
+  guides(fill = &quot;none&quot;, color = &quot;none&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>dagify(
+  NumWebVisitsMonth ~ Year_Birth + Education +Marital_Status+ Kidhome + Teenhome + Recency + NumDealsPurchases,
+  TotalPurchase ~ Marital_Status + Income + Kidhome + Teenhome + Recency + Complain + NumDealsPurchases,
+  exposure = &quot;NumWebVisitsMonth&quot;,
+  outcome = &quot;TotalPurchase&quot;,
+  labels = c(
+    NumWebVisitsMonth = &quot;#Web Visit Last Month&quot;,
+    Year_Birth = &quot;Birth Year&quot;,
+    Education = &quot;Education&quot;,
+    Marital_Status = &quot;Marital Status&quot;,
+    Kidhome = &quot;#Kids at Home&quot;,
+    Teenhome = &quot;#Teenagers at Home&quot;,
+    Recency = &quot;#Days since Last Purchase&quot;,
+    NumDealsPurchases = &quot;#Purchase using Discount&quot;,
+    Income = &quot;Income&quot;,
+    TotalPurchase = &quot;Total Purchase&quot;,
+    Complain = &quot;Complain&quot;
+  )
+) %&gt;%
+ggdag_adjustment_set(text_col = &quot;black&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+</div>
+<div id="missing-data-imputation" class="section level3">
+<h3>Missing Data Imputation</h3>
+<pre class="r"><code>vis_dat(data_sub) + labs(title = &quot;Figure 1: Missing Data&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>library(mice)
+library(MatchThem)
+library(survey)
+set.seed(1)</code></pre>
+<pre class="r"><code>lm(Recency~Income, data = data_sub) %&gt;%
+  tidy()
+data_sub_imp &lt;- mice(data_sub, 5, &quot;pmm&quot;, printFlag = FALSE)
+
+data_sub_complete &lt;- complete(data_sub_imp)
+
+lm(Recency~Income, data = data_sub_complete) %&gt;%
+  tidy()</code></pre>
+<pre class="r"><code>data_sub_complete &lt;- data_sub_complete %&gt;% 
+  mutate(Education = ifelse(Education == &quot;2n Cycle&quot;, 0, Education))%&gt;% 
+  mutate(Education = ifelse(Education == &quot;Basic&quot;, 1, Education)) %&gt;% 
+  mutate(Education = ifelse(Education == &quot;Graduation&quot;, 2, Education)) %&gt;% 
+  mutate(Education = ifelse(Education == &quot;Master&quot;, 3, Education)) %&gt;% 
+  mutate(Education = ifelse(Education == &quot;PhD&quot;, 4, Education)) %&gt;% 
+  mutate(Marital_Status = ifelse(Marital_Status == &quot;Single&quot;, 0, Marital_Status)) %&gt;% 
+  mutate(Marital_Status = ifelse(Marital_Status == &quot;Together&quot;, 1, Marital_Status))%&gt;% 
+  mutate(Marital_Status = ifelse(Marital_Status == &quot;Married&quot;, 2, Marital_Status))%&gt;% 
+  mutate(Marital_Status = ifelse(Marital_Status == &quot;Divorced&quot;, 3, Marital_Status))%&gt;% 
+  mutate(Marital_Status = ifelse(Marital_Status == &quot;Widow&quot;, 4, Marital_Status))%&gt;% 
+  mutate(Marital_Status = ifelse(Marital_Status == &quot;Alone&quot;, 5, Marital_Status))%&gt;% 
+  mutate(Marital_Status = ifelse(Marital_Status == &quot;Absurd&quot;, 6, Marital_Status))%&gt;% 
+  mutate(Marital_Status = ifelse(Marital_Status == &quot;YOLO&quot;, 7, Marital_Status))
+  
+data_continuous &lt;- data_sub_complete
+
+data_sub_complete &lt;- data_sub_complete %&gt;% mutate(NumWebVisitsMonth = ifelse(NumWebVisitsMonth&gt;=6, 1, 0))</code></pre>
+</div>
+<div id="propensity-score-model" class="section level3 tabset">
+<h3 class="tabset">Propensity Score Model</h3>
+<pre class="r"><code>library(tidyverse)
+library(dplyr)
+library(broom)
+library(smd)
+library(gtsummary)
+library(survey)
+
+data_sub_complete %&gt;%
+  tbl_summary(
+    by = NumWebVisitsMonth, 
+    include = c(
+      &quot;Year_Birth&quot;, &quot;Education&quot;, &quot;Marital_Status&quot;, &quot;Kidhome&quot;, &quot;Teenhome&quot;, &quot;Recency&quot;, &quot;NumDealsPurchases&quot;)) %&gt;%
+  add_overall()</code></pre>
+<div id="unweighted" class="section level4">
+<h4>Unweighted</h4>
+<pre class="r"><code>data_sub_complete &lt;- 
+  glm(NumWebVisitsMonth ~ Year_Birth + as.factor(Education) +as.factor(Marital_Status)+ Kidhome + Teenhome + Recency + NumDealsPurchases, 
+    data = data_sub_complete,
+    family = binomial()) %&gt;%
+  augment(type.predict = &quot;response&quot;,
+          data = data_sub_complete) # concatenation
+data_sub_complete %&gt;%
+  select(NumWebVisitsMonth, .fitted)</code></pre>
+<pre class="r"><code>ggplot(data_sub_complete, aes(x= .fitted, fill = as.factor(NumWebVisitsMonth))) + 
+  geom_histogram(bins = 30) +geom_vline(xintercept = median(data_sub_complete[data_sub_complete$NumWebVisitsMonth == 0, ]$.fitted), linetype=&quot;twodash&quot;, 
+                color = &quot;red&quot;, size=1)+geom_vline(xintercept = median(data_sub_complete[data_sub_complete$NumWebVisitsMonth == 1, ]$.fitted), linetype=&quot;twodash&quot;, 
+                color = &quot;turquoise4&quot;, size=1)+
+  labs(x=&quot;Propensity Score&quot;, y=&quot;Count&quot;, title= &quot;Figure 2: Distribution of Propensity Score before Weighting&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>#median(data_sub_complete[data_sub_complete$NumWebVisitsMonth == 0, ]$.fitted)
+#median(data_sub_complete[data_sub_complete$NumWebVisitsMonth == 1, ]$.fitted)</code></pre>
+<pre class="r"><code>library(rsample)
+library(PSW)
+
+#fit inverse probablity weight model
+fit_ipw &lt;- function(split, ...) {
+  .df &lt;- analysis(split)
+  # fit propensity score model
+  propensity_model &lt;- glm(
+    NumWebVisitsMonth ~ Year_Birth + as.factor(Education) +as.factor(Marital_Status)+ Kidhome + Teenhome + Recency + NumDealsPurchases,
+    data = .df,
+    family = binomial()
+  )
+  # calculate inverse probability weights
+  .df &lt;- propensity_model %&gt;% 
+    augment(type.predict = &quot;response&quot;, data = .df)
+  # outcome model 
+  lm(TotalPurchase ~ NumWebVisitsMonth, data = .df) %&gt;% 
+    tidy()
+}
+
+# fit ipw model to bootstrapped samples
+ipw_results &lt;- bootstraps(data_sub_complete, 1000, apparent = TRUE) %&gt;% 
+  mutate(results = map(splits, fit_ipw))</code></pre>
+<pre class="r"><code># get t-statistic-based CIs
+boot_estimate &lt;- int_t(ipw_results, results) %&gt;%
+  filter(term == c(&quot;(Intercept)&quot;, &quot;NumWebVisitsMonth&quot;))
+boot_estimate</code></pre>
+</div>
+<div id="ato-weighted" class="section level4">
+<h4>ATO Weighted</h4>
+<pre class="r"><code>data_sub_complete &lt;- glm(NumWebVisitsMonth ~ Year_Birth + as.factor(Education) +as.factor(Marital_Status)+ Kidhome + Teenhome + Recency + NumDealsPurchases,
+                         data=data_sub_complete, family = binomial()) %&gt;%
+  augment(data_sub_complete, type.predict = &quot;response&quot;) %&gt;%
+  mutate(wt_ato = (1 - NumWebVisitsMonth)* .fitted + NumWebVisitsMonth * (1 - .fitted))</code></pre>
+<pre class="r"><code>des &lt;- svydesign(
+  ids = ~1,
+  data =  data_sub_complete,
+  weight = ~ wt_ato
+)
+
+des %&gt;%
+  tbl_svysummary(
+    by = NumWebVisitsMonth, 
+    include = c(
+      &quot;Year_Birth&quot;, &quot;Education&quot;, &quot;Marital_Status&quot;, &quot;Kidhome&quot;, &quot;Teenhome&quot;, &quot;Recency&quot;, &quot;NumDealsPurchases&quot;)) %&gt;%
+  add_overall()</code></pre>
+<pre class="r"><code>for_plot &lt;- data_sub_complete %&gt;% distinct() %&gt;%
+  pivot_wider(names_from = NumWebVisitsMonth,
+              values_from = .fitted,
+              names_prefix = &quot;NumWebVisitsMonth_p&quot;)</code></pre>
+<pre class="r"><code>ggplot(for_plot) +
+  geom_histogram(bins = 50,
+                 aes(x = NumWebVisitsMonth_p1, 
+                     weight = wt_ato),  
+                 fill = &quot;cornflower blue&quot;) +
+  geom_histogram(bins = 50,
+                 aes(x = NumWebVisitsMonth_p0,
+                     weight = wt_ato,
+                     y = - stat(count)),
+                 fill = &quot;orange&quot;) + 
+  scale_y_continuous(&quot;Count&quot;, label = abs) + 
+  scale_x_continuous(&quot;Propensity Score (ATO Weighted)&quot;) +
+  geom_label(
+    label = &quot;Visit &gt;= 6&quot;, 
+    x = 0.1,
+    y = 10,
+  )+
+    geom_label(
+    label = &quot;Visit &lt; 6&quot;, 
+    x = 0.1,
+    y = -10,
+  )+ labs(title= &quot;Figure 3: Distribution of Propensity Score (ATO Weighted)&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<pre class="r"><code>ecdf_1 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 1) %&gt;%
+  arrange(Income) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))
+
+ecdf_0 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 0) %&gt;%
+  arrange(Income) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))</code></pre>
+<pre class="r"><code>ggplot(ecdf_1, aes(x = Income, y = cum_pct_ato, color = &quot;Yes&quot;)) +
+  geom_line() +
+  geom_line(data = ecdf_0, 
+            aes(x = Income, y = cum_pct_ato, color = &quot;No&quot;)) + labs(x = &quot;Income after ATO weighting&quot;, y = &quot;(ATO Weighted) Percent &lt;= x&quot;, title=&quot;Figure 4: ATO Weighted ECDF for Income&quot;, color = &quot;NumWebVisitsMonth&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<pre class="r"><code>ecdf_1 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 1) %&gt;%
+  arrange(Year_Birth) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))
+
+ecdf_0 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 0) %&gt;%
+  arrange(Year_Birth) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))</code></pre>
+<pre class="r"><code>ggplot(ecdf_1, aes(x = Year_Birth, y = cum_pct_ato, color = &quot;Yes&quot;)) +
+  geom_line() +
+  geom_line(data = ecdf_0, 
+            aes(x = Year_Birth, y = cum_pct_ato, color = &quot;No&quot;)) + labs(x = &quot;Year_Birth after ATO weighting&quot;, y = &quot;(ATO Weighted) Percent &lt;= x&quot;, title=&quot;Figure 5: ATO Weighted ECDF for Year_Birth&quot;, color = &quot;NumWebVisitsMonth&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<pre class="r"><code>ecdf_1 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 1) %&gt;%
+  arrange(Recency) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))
+
+ecdf_0 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 0) %&gt;%
+  arrange(Recency) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))</code></pre>
+<pre class="r"><code>ggplot(ecdf_1, aes(x = Recency, y = cum_pct_ato, color = &quot;Yes&quot;)) +
+  geom_line() +
+  geom_line(data = ecdf_0, 
+            aes(x = Recency, y = cum_pct_ato, color = &quot;No&quot;)) + labs(x = &quot;Recency after ATO weighting&quot;, y = &quot;(ATO Weighted) Percent &lt;= x&quot;, title=&quot;Figure 6: ATO Weighted ECDF for Recency&quot;, color = &quot;NumWebVisitsMonth&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code>ecdf_1 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 1) %&gt;%
+  arrange(Kidhome) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))
+
+ecdf_0 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 0) %&gt;%
+  arrange(Kidhome) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))</code></pre>
+<pre class="r"><code>ggplot(ecdf_1, aes(x = Kidhome, y = cum_pct_ato, color = &quot;Yes&quot;)) +
+  geom_line() +
+  geom_line(data = ecdf_0, 
+            aes(x = Kidhome, y = cum_pct_ato, color = &quot;No&quot;)) + labs(x = &quot;Kidhome after ATO weighting&quot;, y = &quot;(ATO Weighted) Percent &lt;= x&quot;, title=&quot;Figure 7: ATO Weighted ECDF for Kidhome&quot;, color = &quot;NumWebVisitsMonth&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<pre class="r"><code>ecdf_1 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 1) %&gt;%
+  arrange(Teenhome) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))
+
+ecdf_0 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 0) %&gt;%
+  arrange(Teenhome) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))</code></pre>
+<pre class="r"><code>ggplot(ecdf_1, aes(x = Teenhome, y = cum_pct_ato, color = &quot;Yes&quot;)) +
+  geom_line() +
+  geom_line(data = ecdf_0, 
+            aes(x = Teenhome, y = cum_pct_ato, color = &quot;No&quot;)) + labs(x = &quot;Teenhome after ATO weighting&quot;, y = &quot;(ATO Weighted) Percent &lt;= x&quot;, title=&quot;Figure 8: ATO Weighted ECDF for Teenhome&quot;, color = &quot;NumWebVisitsMonth&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<pre class="r"><code>ecdf_1 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 1) %&gt;%
+  arrange(NumDealsPurchases) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))
+
+ecdf_0 &lt;- data_sub_complete %&gt;%
+  filter(NumWebVisitsMonth == 0) %&gt;%
+  arrange(NumDealsPurchases) %&gt;%
+  mutate(cum_pct_ato = cumsum(wt_ato) / sum(wt_ato))</code></pre>
+<pre class="r"><code>ggplot(ecdf_1, aes(x = NumDealsPurchases, y = cum_pct_ato, color = &quot;Yes&quot;)) +
+  geom_line() +
+  geom_line(data = ecdf_0, 
+            aes(x = NumDealsPurchases, y = cum_pct_ato, color = &quot;No&quot;)) + labs(x = &quot;NumDealsPurchases after ATO weighting&quot;, y = &quot;(ATO Weighted) Percent &lt;= x&quot;, title=&quot;Figure 9: ATO Weighted ECDF for NumDealsPurchases&quot;, color = &quot;NumWebVisitsMonth&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<pre class="r"><code>smds &lt;- data_sub_complete %&gt;%
+  summarise(
+    across(
+      c(&quot;Year_Birth&quot;, &quot;Education&quot;, &quot;Kidhome&quot;, &quot;Teenhome&quot;, &quot;Recency&quot;, &quot;NumDealsPurchases&quot;),
+      list(
+        unweighted = ~smd(.x, NumWebVisitsMonth)$estimate,
+        ato.weighted = ~smd(.x, NumWebVisitsMonth, w = wt_ato)$estimate
+      )
+    )
+  )
+
+
+smds %&gt;%
+  pivot_longer(
+    everything(),
+    values_to = &quot;SMD&quot;,
+    names_to = c(&quot;variable&quot;, &quot;Method&quot;),
+    names_pattern = &quot;(.*)_(.*)&quot;) %&gt;%
+  arrange(desc(Method), abs(SMD)) %&gt;%
+  mutate(variable = fct_inorder(variable)) -&gt; for_plot</code></pre>
+<pre class="r"><code>ggplot(for_plot, aes(x = abs(SMD), y=variable, group = Method, color= Method))+ labs(x = &quot;Standarized Mean Difference&quot;, y=&quot;Variables&quot;, title = &quot;Figure 10: Love Plot&quot;) +
+  geom_line(orientation = &quot;y&quot;) +
+  geom_point() +
+  geom_vline(xintercept = 0.1, lty = 2, color = &quot;black&quot;, size =0.1)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<pre class="r"><code>library(rsample)
+library(PSW)
+#fit inverse probablity weight model
+fit_ipw &lt;- function(split, ...) {
+  .df &lt;- analysis(split)
+  # fit propensity score model
+  propensity_model &lt;- glm(
+    NumWebVisitsMonth ~ Year_Birth + as.factor(Education) +as.factor(Marital_Status)+ Kidhome + Teenhome + Recency + NumDealsPurchases,
+    data = .df,
+    family = binomial()
+  )
+  # calculate inverse probability weights
+  .df &lt;- propensity_model %&gt;% 
+    augment(type.predict = &quot;response&quot;, data = .df) %&gt;% 
+    mutate(wt_ato = (1 - NumWebVisitsMonth)* .fitted + NumWebVisitsMonth * (1 - .fitted))
+  # fit correctly bootsrapped ipw model
+  # outcome model 
+  lm(TotalPurchase ~ NumWebVisitsMonth, data = .df, weights = wt_ato) %&gt;% 
+    tidy()
+}
+
+# fit ipw model to bootstrapped samples
+ipw_results &lt;- bootstraps(data_sub_complete, 1000, apparent = TRUE) %&gt;% 
+  mutate(results = map(splits, fit_ipw))</code></pre>
+<pre class="r"><code># get t-statistic-based CIs
+boot_estimate &lt;- int_t(ipw_results, results) %&gt;%
+  filter(term == c(&quot;(Intercept)&quot;, &quot;NumWebVisitsMonth&quot;))
+boot_estimate</code></pre>
+</div>
+<div id="continuous-exposure-ipw" class="section level4">
+<h4>Continuous Exposure IPW</h4>
+<pre class="r"><code># the numerator
+mod_num &lt;- lm(NumWebVisitsMonth ~ 1, data = data_continuous)
+
+num &lt;- dnorm(x = data_continuous$NumWebVisitsMonth, # treatment 
+             mean = fitted.values(mod_num), # fitted values
+             sd = summary(mod_num)$sigma) # model sigma
+
+mod_den &lt;- lm(NumWebVisitsMonth ~ Year_Birth + as.factor(Education) +as.factor(Marital_Status)+ Kidhome + Teenhome + Recency + NumDealsPurchases, data = data_continuous)
+
+den &lt;- dnorm(x = data_continuous$NumWebVisitsMonth, # treatment variable
+             mean = fitted.values(mod_den), # fitted values
+             sd = summary(mod_den)$sigma)
+
+data_continuous &lt;- data_continuous %&gt;%
+  mutate(ipw_s = num/den)
+
+#summary(data_continuous$ipw_s)</code></pre>
+<pre class="r"><code>ggplot(data_continuous, aes(ipw_s)) +
+  geom_density(col = &quot;#E69F00&quot;, fill = &quot;#E69F0095&quot;) + 
+  scale_x_log10() + 
+  theme_minimal(base_size = 20) + 
+  xlab(&quot;Stabilized Weights&quot;)+ geom_vline(xintercept = median(data_continuous$ipw_s), linetype=&quot;twodash&quot;, color = &quot;red&quot;, size=0.7) +
+  labs(x=&quot;Stabilized Weights&quot;, y=&quot;Density&quot;, title= &quot;Figure 10: Distribution of Weights after IPW&quot;)</code></pre>
+<p><img src="code_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<pre class="r"><code>library(rsample)
+library(PSW)
+#fit inverse probablity weight model
+fit_ipw &lt;- function(split, ...) {
+  .df &lt;- analysis(split)
+  # fit propensity score model
+  mod_num &lt;- lm(NumWebVisitsMonth ~ 1, data = .df)
+  num &lt;- dnorm(x = .df$NumWebVisitsMonth, # treatment 
+             mean = fitted.values(mod_num), # fitted values
+             sd = summary(mod_num)$sigma) # model sigma
+  mod_den &lt;- lm(NumWebVisitsMonth ~ Year_Birth + as.factor(Education) +as.factor(Marital_Status)+ Kidhome + Teenhome + Recency + NumDealsPurchases, data = .df)
+  den &lt;- dnorm(x = .df$NumWebVisitsMonth, # treatment variable
+             mean = fitted.values(mod_den), # fitted values
+             sd = summary(mod_den)$sigma)
+
+  .df &lt;- .df %&gt;%
+    mutate(ipw_s = num/den)
+
+  # fit correctly bootsrapped ipw model
+  # outcome model 
+  lm(TotalPurchase ~ NumWebVisitsMonth, data = .df) %&gt;% 
+    tidy()
+}
+
+# fit ipw model to bootstrapped samples
+ipw_results &lt;- bootstraps(data_continuous, 1000, apparent = TRUE) %&gt;% 
+  mutate(results = map(splits, fit_ipw))</code></pre>
+<pre class="r"><code># get t-statistic-based CIs
+boot_estimate &lt;- int_t(ipw_results, results) %&gt;%
+  filter(term == c(&quot;(Intercept)&quot;, &quot;NumWebVisitsMonth&quot;))
+boot_estimate</code></pre>
+</div>
+</div>
+<div id="sensitivity-analysis" class="section level3 tabset">
+<h3 class="tabset">Sensitivity Analysis</h3>
+<div id="unweighted-1" class="section level4">
+<h4>Unweighted</h4>
+<pre class="r"><code>library(tipr)
+
+adjust_coef(effect = -5.350321, smd = 0.1, outcome_association = 1.5)</code></pre>
+</div>
+<div id="ato-weighted-1" class="section level4">
+<h4>ATO Weighted</h4>
+<pre class="r"><code>library(tipr)
+
+adjust_coef(effect = -3.029384, smd = 0.1, outcome_association = 1.5)</code></pre>
+</div>
+<div id="continuous-exposure" class="section level4">
+<h4>Continuous Exposure</h4>
+<pre class="r"><code>library(tipr)
+
+adjust_coef(effect = -1.26591, smd = 0.1, outcome_association = 1.5)</code></pre>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
