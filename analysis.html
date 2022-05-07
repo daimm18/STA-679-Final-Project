@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Michelle Dai" />
+
+<meta name="date" content="2022-05-06" />
+
+<title>Analysis</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Do people who made more web visit purchase more compared with people who made less web visit?</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="analysis.html">Analysis</a>
+</li>
+<li>
+  <a href="code.html">Code</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/daimm18">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Analysis</h1>
+<h4 class="author">Michelle Dai</h4>
+<h4 class="date">2022-05-06</h4>
+
+</div>
+
+
+<div id="missing-data-imputation" class="section level2">
+<h2>Missing Data Imputation</h2>
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>From Figure 1, we can see that there are 24 missing data in “Income”,
+because we understand that “Income” might be a censored data. From the
+DAG we introduced in the previous section, we assume that our dataset
+exist other variables that could potentially explain part of the
+“Income”, so “Income” is Missing at Random with all other variables in
+our dataset not missing. We are going to impute the missing data
+properly so that we lose minimal information on the group missing
+“Income”.</p>
+<p>Here, I used 5 different models to predict “Income”, and I used
+predictive mean matching. The approach is to calculate the predicted
+value of “Income” for all observations using the other variables, and by
+randomly selecting one of the non-missing values of “Income” among the
+sets of observations that have the closest predicted value for variable
+“Income” as the imputed value, and I believe the imputed value is the
+average value from these five models.</p>
+<pre><code>## # A tibble: 2 × 5
+##   term           estimate std.error statistic   p.value
+##   &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept) 49.3        1.42         34.7   1.54e-211
+## 2 Income      -0.00000457 0.0000244    -0.187 8.52e-  1</code></pre>
+<pre><code>## # A tibble: 2 × 5
+##   term           estimate std.error statistic   p.value
+##   &lt;chr&gt;             &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept) 49.3        1.41         34.9   6.38e-214
+## 2 Income      -0.00000410 0.0000244    -0.168 8.67e-  1</code></pre>
+<p>We can see from the two simple linear models fitted (<span
+class="math inline">\(Recency=\beta_0 + \beta_1 *Income\)</span>) using
+the dataset before imputation and the dataset after imputation
+(averaged), although there are some differences between coefficients as
+we expected, they do not off much, so we expect our data imputation is
+reasonable at this stage.</p>
+<p>After imputation, I changed “Education” and “Marital_Status” from
+string categories to dummy variables (0, 1, 2, etc.). In order to
+prepare for the propensity score modeling in the next part, I set a
+threshold for “NumWebVisitsMonth”, which “NumWebVisitsMonth” greater or
+equal to 6 will consider as frequent, and infrequent vice versa. The
+reason behind is that at cutoff point 6, we will have group frequent and
+infrequent at 1070 and 1170 respectively, which is the most balanced
+group we can get with two categories. Then we first analyze the outcome
+model with binary exposure, and then analyze the outcome model with
+continuous exposure.</p>
+</div>
+<div id="propensity-score-model" class="section level2 tabset">
+<h2 class="tabset">Propensity Score Model</h2>
+<div id="introduction-to-propensity-score-model" class="section level3">
+<h3>Introduction to Propensity Score Model</h3>
+<p>The propensity score is the probability of treatment assignment
+conditional on observed baseline characteristics.</p>
+<p>The propensity score is the probability of treatment assignment
+conditional on observed baseline characteristics. In order to estimate
+the effects of treatments, interventions, and exposures (hereafter
+referred to as treatments), randomized controlled trials (RCTs) are
+considered the gold standard. In this way, the treatment status will not
+be confounded with measured or unmeasured baseline characteristics.
+Therefore, the effect of treatment on outcomes can be estimated by
+comparing outcomes directly between treated and untreated subjects. An
+observational study can be designed and analyzed using a propensity
+score in a way that mimics some of the characteristics of a randomized
+controlled trial. In particular, the propensity score is a balancing
+score: conditional on the propensity score, the distribution of observed
+baseline covariates will be similar between treated and untreated
+subjects. (Austin, 2011)</p>
+<div id="dgabwknrsa" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#dgabwknrsa .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#dgabwknrsa .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#dgabwknrsa .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#dgabwknrsa .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#dgabwknrsa .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#dgabwknrsa .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#dgabwknrsa .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#dgabwknrsa .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#dgabwknrsa .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#dgabwknrsa .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#dgabwknrsa .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#dgabwknrsa .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#dgabwknrsa .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dgabwknrsa .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#dgabwknrsa .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#dgabwknrsa .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dgabwknrsa .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#dgabwknrsa .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dgabwknrsa .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#dgabwknrsa .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dgabwknrsa .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dgabwknrsa .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dgabwknrsa .gt_left {
+  text-align: left;
+}
+
+#dgabwknrsa .gt_center {
+  text-align: center;
+}
+
+#dgabwknrsa .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#dgabwknrsa .gt_font_normal {
+  font-weight: normal;
+}
+
+#dgabwknrsa .gt_font_bold {
+  font-weight: bold;
+}
+
+#dgabwknrsa .gt_font_italic {
+  font-style: italic;
+}
+
+#dgabwknrsa .gt_super {
+  font-size: 65%;
+}
+
+#dgabwknrsa .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#dgabwknrsa .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#dgabwknrsa .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#dgabwknrsa .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#dgabwknrsa .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#dgabwknrsa .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Overall</strong>, N = 2,240<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>0</strong>, N = 1,070<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>1</strong>, N = 1,170<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Year_Birth</td>
+<td class="gt_row gt_center">1,970 (1,959, 1,977)</td>
+<td class="gt_row gt_center">1,968 (1,957, 1,977)</td>
+<td class="gt_row gt_center">1,971 (1,963, 1,978)</td></tr>
+    <tr><td class="gt_row gt_left">Education</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0</td>
+<td class="gt_row gt_center">203 (9.1%)</td>
+<td class="gt_row gt_center">88 (8.2%)</td>
+<td class="gt_row gt_center">115 (9.8%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">54 (2.4%)</td>
+<td class="gt_row gt_center">9 (0.8%)</td>
+<td class="gt_row gt_center">45 (3.8%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">1,127 (50%)</td>
+<td class="gt_row gt_center">537 (50%)</td>
+<td class="gt_row gt_center">590 (50%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">3</td>
+<td class="gt_row gt_center">370 (17%)</td>
+<td class="gt_row gt_center">183 (17%)</td>
+<td class="gt_row gt_center">187 (16%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">4</td>
+<td class="gt_row gt_center">486 (22%)</td>
+<td class="gt_row gt_center">253 (24%)</td>
+<td class="gt_row gt_center">233 (20%)</td></tr>
+    <tr><td class="gt_row gt_left">Marital_Status</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0</td>
+<td class="gt_row gt_center">480 (21%)</td>
+<td class="gt_row gt_center">233 (22%)</td>
+<td class="gt_row gt_center">247 (21%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">580 (26%)</td>
+<td class="gt_row gt_center">290 (27%)</td>
+<td class="gt_row gt_center">290 (25%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">864 (39%)</td>
+<td class="gt_row gt_center">402 (38%)</td>
+<td class="gt_row gt_center">462 (39%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">3</td>
+<td class="gt_row gt_center">232 (10%)</td>
+<td class="gt_row gt_center">97 (9.1%)</td>
+<td class="gt_row gt_center">135 (12%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">4</td>
+<td class="gt_row gt_center">77 (3.4%)</td>
+<td class="gt_row gt_center">45 (4.2%)</td>
+<td class="gt_row gt_center">32 (2.7%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">5</td>
+<td class="gt_row gt_center">3 (0.1%)</td>
+<td class="gt_row gt_center">1 (&lt;0.1%)</td>
+<td class="gt_row gt_center">2 (0.2%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">6</td>
+<td class="gt_row gt_center">2 (&lt;0.1%)</td>
+<td class="gt_row gt_center">2 (0.2%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">7</td>
+<td class="gt_row gt_center">2 (&lt;0.1%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">2 (0.2%)</td></tr>
+    <tr><td class="gt_row gt_left">Kidhome</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0</td>
+<td class="gt_row gt_center">1,293 (58%)</td>
+<td class="gt_row gt_center">852 (80%)</td>
+<td class="gt_row gt_center">441 (38%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">899 (40%)</td>
+<td class="gt_row gt_center">209 (20%)</td>
+<td class="gt_row gt_center">690 (59%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">48 (2.1%)</td>
+<td class="gt_row gt_center">9 (0.8%)</td>
+<td class="gt_row gt_center">39 (3.3%)</td></tr>
+    <tr><td class="gt_row gt_left">Teenhome</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0</td>
+<td class="gt_row gt_center">1,158 (52%)</td>
+<td class="gt_row gt_center">581 (54%)</td>
+<td class="gt_row gt_center">577 (49%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">1,030 (46%)</td>
+<td class="gt_row gt_center">459 (43%)</td>
+<td class="gt_row gt_center">571 (49%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">52 (2.3%)</td>
+<td class="gt_row gt_center">30 (2.8%)</td>
+<td class="gt_row gt_center">22 (1.9%)</td></tr>
+    <tr><td class="gt_row gt_left">Recency</td>
+<td class="gt_row gt_center">49 (24, 74)</td>
+<td class="gt_row gt_center">50 (24, 76)</td>
+<td class="gt_row gt_center">49 (24, 73)</td></tr>
+    <tr><td class="gt_row gt_left">NumDealsPurchases</td>
+<td class="gt_row gt_center">2 (1, 3)</td>
+<td class="gt_row gt_center">1 (1, 2)</td>
+<td class="gt_row gt_center">2 (1, 4)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> Median (IQR); n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>From the summary table above, we can see that most factors are
+unbalanced between different exposure groups. For example, costumers
+with no kid at home are less likely to visit online store (80% vs. 38%),
+and costumers with one kid at home are more likely to visit online store
+(20% vs. 59%).</p>
+<p>We are going to fit two propensity score model, the first one is
+unweighted, to see if we don’t manually balance the differences between
+different exposure groups, what outcome model will return us with. The
+second propensity score model will be fitted after we perform ATO
+weight, since I am interested in the population of individuals who
+reasonably could either visit webstore frequently or infrequently, I
+will be using ATO for estimand.</p>
+</div>
+<div id="unweighted" class="section level3">
+<h3>Unweighted</h3>
+<p><img src="analysis_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>We can see that before weighting, the median of the propensity score
+for webstore visit infrequent group (less than 6 times) is 0.31, and the
+median of propensity score for webstore visit frequent group is 0.68.
+Since the propensity score is the probability of receiving treatment,
+this makes sense as those who received it probably had a higher
+probability of frequent website visit.</p>
+<pre><code>## # A tibble: 2 × 6
+##   term              .lower .estimate .upper .alpha .method  
+##   &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;    
+## 1 (Intercept)        14.9      15.3   15.7    0.05 student-t
+## 2 NumWebVisitsMonth  -5.91     -5.35  -4.77   0.05 student-t</code></pre>
+<p>After performing 1000 Bootstrap samples, keeping all other factors
+constant, on average, we are 95% confident that people who visit
+webstore more frequently (greater or equal to 6) are purchasing 5.91 to
+4.77 times less than people who visit webstore infrequently.</p>
+<p>The estimated relationship between total purchases and number of time
+visit webstore is <span
+class="math inline">\(TotalPurchase=15.335473-5.350321*NumWebVisitsMonth\)</span></p>
+</div>
+<div id="ato-weighted" class="section level3">
+<h3>ATO Weighted</h3>
+<p>Understanding the inbalance exists between treatment groups, we are
+applying ATO weighting here to see the outcome model after ATO weighting
+balanced.</p>
+<div id="wwkevhcoyc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#wwkevhcoyc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wwkevhcoyc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wwkevhcoyc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wwkevhcoyc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wwkevhcoyc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wwkevhcoyc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wwkevhcoyc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wwkevhcoyc .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wwkevhcoyc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wwkevhcoyc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wwkevhcoyc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wwkevhcoyc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wwkevhcoyc .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wwkevhcoyc .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#wwkevhcoyc .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#wwkevhcoyc .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wwkevhcoyc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#wwkevhcoyc .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wwkevhcoyc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wwkevhcoyc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wwkevhcoyc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wwkevhcoyc .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wwkevhcoyc .gt_left {
+  text-align: left;
+}
+
+#wwkevhcoyc .gt_center {
+  text-align: center;
+}
+
+#wwkevhcoyc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wwkevhcoyc .gt_font_normal {
+  font-weight: normal;
+}
+
+#wwkevhcoyc .gt_font_bold {
+  font-weight: bold;
+}
+
+#wwkevhcoyc .gt_font_italic {
+  font-style: italic;
+}
+
+#wwkevhcoyc .gt_super {
+  font-size: 65%;
+}
+
+#wwkevhcoyc .gt_two_val_uncert {
+  display: inline-block;
+  line-height: 1em;
+  text-align: right;
+  font-size: 60%;
+  vertical-align: -0.25em;
+  margin-left: 0.1em;
+}
+
+#wwkevhcoyc .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#wwkevhcoyc .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#wwkevhcoyc .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#wwkevhcoyc .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#wwkevhcoyc .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>Overall</strong>, N = 858<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>0</strong>, N = 429<sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>1</strong>, N = 429<sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Year_Birth</td>
+<td class="gt_row gt_center">1,969 (1,959, 1,977)</td>
+<td class="gt_row gt_center">1,970 (1,959, 1,978)</td>
+<td class="gt_row gt_center">1,969 (1,959, 1,976)</td></tr>
+    <tr><td class="gt_row gt_left">Education</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0</td>
+<td class="gt_row gt_center">79 (9.2%)</td>
+<td class="gt_row gt_center">39 (9.2%)</td>
+<td class="gt_row gt_center">39 (9.2%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">15 (1.8%)</td>
+<td class="gt_row gt_center">8 (1.8%)</td>
+<td class="gt_row gt_center">8 (1.8%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">435 (51%)</td>
+<td class="gt_row gt_center">217 (51%)</td>
+<td class="gt_row gt_center">217 (51%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">3</td>
+<td class="gt_row gt_center">138 (16%)</td>
+<td class="gt_row gt_center">69 (16%)</td>
+<td class="gt_row gt_center">69 (16%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">4</td>
+<td class="gt_row gt_center">192 (22%)</td>
+<td class="gt_row gt_center">96 (22%)</td>
+<td class="gt_row gt_center">96 (22%)</td></tr>
+    <tr><td class="gt_row gt_left">Marital_Status</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0</td>
+<td class="gt_row gt_center">176 (21%)</td>
+<td class="gt_row gt_center">88 (21%)</td>
+<td class="gt_row gt_center">88 (21%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">224 (26%)</td>
+<td class="gt_row gt_center">112 (26%)</td>
+<td class="gt_row gt_center">112 (26%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">334 (39%)</td>
+<td class="gt_row gt_center">167 (39%)</td>
+<td class="gt_row gt_center">167 (39%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">3</td>
+<td class="gt_row gt_center">90 (11%)</td>
+<td class="gt_row gt_center">45 (11%)</td>
+<td class="gt_row gt_center">45 (11%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">4</td>
+<td class="gt_row gt_center">33 (3.8%)</td>
+<td class="gt_row gt_center">16 (3.8%)</td>
+<td class="gt_row gt_center">16 (3.8%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">5</td>
+<td class="gt_row gt_center">1 (0.1%)</td>
+<td class="gt_row gt_center">1 (0.1%)</td>
+<td class="gt_row gt_center">1 (0.1%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">6</td>
+<td class="gt_row gt_center">0 (&lt;0.1%)</td>
+<td class="gt_row gt_center">0 (&lt;0.1%)</td>
+<td class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">7</td>
+<td class="gt_row gt_center">0 (&lt;0.1%)</td>
+<td class="gt_row gt_center">0 (0%)</td>
+<td class="gt_row gt_center">0 (&lt;0.1%)</td></tr>
+    <tr><td class="gt_row gt_left">Kidhome</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0</td>
+<td class="gt_row gt_center">530 (62%)</td>
+<td class="gt_row gt_center">268 (62%)</td>
+<td class="gt_row gt_center">262 (61%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">317 (37%)</td>
+<td class="gt_row gt_center">153 (36%)</td>
+<td class="gt_row gt_center">164 (38%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">11 (1.3%)</td>
+<td class="gt_row gt_center">8 (1.9%)</td>
+<td class="gt_row gt_center">3 (0.7%)</td></tr>
+    <tr><td class="gt_row gt_left">Teenhome</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">0</td>
+<td class="gt_row gt_center">408 (48%)</td>
+<td class="gt_row gt_center">207 (48%)</td>
+<td class="gt_row gt_center">201 (47%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">428 (50%)</td>
+<td class="gt_row gt_center">208 (49%)</td>
+<td class="gt_row gt_center">220 (51%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">22 (2.5%)</td>
+<td class="gt_row gt_center">14 (3.2%)</td>
+<td class="gt_row gt_center">8 (1.8%)</td></tr>
+    <tr><td class="gt_row gt_left">Recency</td>
+<td class="gt_row gt_center">49 (24, 75)</td>
+<td class="gt_row gt_center">49 (24, 76)</td>
+<td class="gt_row gt_center">50 (24, 74)</td></tr>
+    <tr><td class="gt_row gt_left">NumDealsPurchases</td>
+<td class="gt_row gt_center">2 (1, 3)</td>
+<td class="gt_row gt_center">2 (1, 3)</td>
+<td class="gt_row gt_center">2 (1, 3)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> Median (IQR); n (%)</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p><img src="analysis_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>From table above as well as Figure 3, we can see that the
+distribution of propensity score is more balanced between treatments
+after ATO weighting. Thus, the probability of assigning to either
+treatment group is approximately the same now.</p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>In Figure 4-9, we checked the eCDF plot for all continuous variables
+(the latter ones are potentially continuous although the range of values
+this dataset took is not large). We can see that the eCDF plots for two
+groups match well as they mostly overlap with each other after ATO
+weighting.</p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p>From Figure 10, we can see that before ATO weights adjusted,
+“KidHome” and “NumDealsPurchases” are heavily stressed as covariates,
+especially for “KidHome”. The balance is improved for all variables
+after ATO weights adjusted (all variables are now below the threshold of
+0.1 for absolute mean differences).</p>
+<pre><code>## # A tibble: 2 × 6
+##   term              .lower .estimate .upper .alpha .method  
+##   &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;    
+## 1 (Intercept)        13.5      13.9   14.4    0.05 student-t
+## 2 NumWebVisitsMonth  -3.56     -3.03  -2.48   0.05 student-t</code></pre>
+<p>After we are certain that the probability of assigning to either
+treatment group is approximately the same, we perform 1000 Bootstrap
+samples, by keeping all other factors constant, on average, we are 95%
+confident that people who visit webstore more frequently (greater or
+equal to 6) are purchasing 3.56 to -2.48 times less than people who
+visit webstore infrequently.</p>
+<p>The estimated relationship between total purchases and number of time
+visit webstore is <span
+class="math inline">\(TotalPurchase=13.938669-3.029384*NumWebVisitsMonth\)</span>.</p>
+</div>
+<div id="continuous-exposure-ipw" class="section level3">
+<h3>Continuous Exposure IPW</h3>
+<p>We consider the potential bias we add to the outcome model with
+setting up a cutoff point for exposure group. Thus, we consider
+continuous exposure in this part trying to capture the true relationship
+between exposure and outcome.</p>
+<p>Here, I have used inverse propensity weights (IPW), which provides an
+estimation of ATE weighting as in binary treatment group, which makes
+sense as we don’t have enough information to choose either group in this
+case since our treatment is continuous.</p>
+<p><img src="analysis_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p>We can see that after IPW the median of weights approximately 1
+(0.8). Therefore we believe that we have tackled with existence of
+extreme weights (the problem that will result in large CI) (McGowan,
+2022).</p>
+<pre><code>## # A tibble: 2 × 6
+##   term              .lower .estimate .upper .alpha .method  
+##   &lt;chr&gt;              &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;    
+## 1 (Intercept)        18.7      19.3   19.8    0.05 student-t
+## 2 NumWebVisitsMonth  -1.36     -1.27  -1.16   0.05 student-t</code></pre>
+<p>After we are certain that the probability of assigning to either
+treatment group is approximately the same, we performing 1000 Bootstrap
+samples, by keeping all other factors constant, on average, we are 95%
+confident that for every additional increase in number of webstore
+visits, the number of total purchases will decrease by 1.36 to 1.16.</p>
+<p>The estimated relationship between total purchases and number of time
+visit webstore is <span
+class="math inline">\(TotalPurchase=19.26304-1.26591*NumWebVisitsMonth\)</span>.</p>
+</div>
+</div>
+<div id="sensitivity-analysis" class="section level2 tabset">
+<h2 class="tabset">Sensitivity Analysis</h2>
+<p>In this study, since “NumWebVisitsMonth” did not provide information
+of month year this study was collected on, so the impact of people shop
+during Black Friday and regular season are drastically different. Thus,
+an event-related bias is introduced into our study. Let’s assume we are
+concerned with residual confounding of season change on shopping
+behavior. And we assume that this residual confounding has smd
+(estimated difference in standardized means between the unmeasured
+confounder in the exposed population and unexposed population) of 0.1,
+and outcome association (the estimated association between the
+unmeasured confounder and outcome) of 1.5.</p>
+<div id="unweighted-1" class="section level3">
+<h3>Unweighted</h3>
+<pre><code>## # A tibble: 1 × 4
+##   effect_adjusted effect_observed   smd outcome_association
+##             &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;               &lt;dbl&gt;
+## 1           -5.50           -5.35   0.1                 1.5</code></pre>
+<p>When we plugging in our point estimate from 1000 Bootstrap samples
+into the equation, we see an adjusted effect of -5.500321. Thus if we
+see an confounder like this (event-related), we would expect our total
+purchases to decrease by 5.50 for people who visit webstore more
+frequently compared with people who visit less frequently (less than 6)
+when keeping all other factors constant.</p>
+</div>
+<div id="ato-weighted-1" class="section level3">
+<h3>ATO Weighted</h3>
+<pre><code>## # A tibble: 1 × 4
+##   effect_adjusted effect_observed   smd outcome_association
+##             &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;               &lt;dbl&gt;
+## 1           -3.18           -3.03   0.1                 1.5</code></pre>
+<p>When we plugging in our point estimate from 1000 Bootstrap samples
+into the equation, we see an adjusted effect of -3.179384. Thus if we
+see an confounder like this (event-related), we would expect our total
+purchases to decrease by 3.18 for people who visit webstore more
+frequently compared with people who visit less frequently (less than 6)
+when keeping all other factors constant.</p>
+</div>
+<div id="continuous-exposure" class="section level3">
+<h3>Continuous Exposure</h3>
+<pre><code>## # A tibble: 1 × 4
+##   effect_adjusted effect_observed   smd outcome_association
+##             &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;               &lt;dbl&gt;
+## 1           -1.42           -1.27   0.1                 1.5</code></pre>
+<p>When we plugging in our point estimate from 1000 Bootstrap samples
+into the equation, we see an adjusted effect of -1.41591. Thus if we see
+an confounder like this (event-related), we would expect our total
+purchases to decrease by 1.42 for every additional webstore visit when
+keeping all other factors constant.</p>
+</div>
+</div>
+<div id="conclusion" class="section level2 tabset">
+<h2 class="tabset">Conclusion</h2>
+<div id="unweighted-2" class="section level3">
+<h3>Unweighted</h3>
+<p>With our unweighted model, by keeping all other factors constant, on
+average, people who visit online store more frequently (greater or equal
+to 6) shop 5.91 to 4.77 times less than people who visit online store
+less frequently, and we predict that people who visit online store more
+frequently had total purchases of 9.99 times on average, and we expect
+this number to be 9.84 times on average after considering unincluded
+confounder on exposure.</p>
+</div>
+<div id="ato-weighted-2" class="section level3">
+<h3>ATO Weighted</h3>
+<p>With our ATO weighted model, by keeping all other factors constant,
+on average, people who visit online store more frequently (greater or
+equal to 6) shop 3.56 to 2.48 times less than people who visit online
+store less frequently, and we predict that people who visit online store
+more frequently had total purchases of 10.91 times on average, and we
+expect this number to be 10.76 times after considering unincluded
+confounder on exposure.</p>
+</div>
+<div id="continuous-exposure-1" class="section level3">
+<h3>Continuous Exposure</h3>
+<p>With our ATO weighted model, by keeping all other factors constant,
+on average, for every additional increase in number of webstore visits,
+the number of total purchases will decrease by 1.36 to 1.16. So that for
+example if we visit webstore 6 times within a month, we expect to
+purchase 11.67 times on average in total, and we expect this number to
+be 10.77 times after considering unincluded confounder on exposure.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
